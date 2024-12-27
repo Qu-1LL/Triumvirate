@@ -22,8 +22,11 @@ playerSchema = new mongoose.Schema({
     activeCards: {
         type: [String],
         default: []
+    },
+    availableActions: {
+        type: [String],
+        default: []
     }
-
 });
 
 roomSchema = new mongoose.Schema({
@@ -71,6 +74,13 @@ roomSchema = new mongoose.Schema({
     senate: {
         type: [String],
         default: []
+    },
+    turnOrder: {
+        type: [String],
+        default: []
+    },
+    currentPlayerTurn: {
+        type: String
     }
 
 });
