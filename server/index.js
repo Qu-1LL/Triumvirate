@@ -1,22 +1,28 @@
-require('dotenv').config;
 
-const express = require('express');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jsonwebtoken from 'jsonwebtoken';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+import connectDB from './config/db.js';
+
 const triumvirate_app = express();
-const bcrypt = require('bcrypt');
-const jsonwebtoken = require('jsonwebtoken');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const socketio = require('socket.io')()
+
+const PORT = 3000; 
 
 triumvirate_app.use(express.json());
-const PORT = 3000
-triumvirate_app.listen(
-  PORT,
-  () => console.log(`Trimvirate Server Running on http://localhost:${PORT}`)
-);
 
 triumvirate_app.get('/rooms', (req, res) => {
-  res.status(200).json({
-    message: 'Hello world'
-  })
+   res.send('entered rooms')
 });
+
+console.log(process.env.MONGO_URI);
+
+triumvirate_app.listen(PORT,() =>{
+  connectDB();
+  console.log(`Trimvirate Server Running on http://localhost:${PORT}`);
+});
+//HdK2GnQKkmS0MrKR
