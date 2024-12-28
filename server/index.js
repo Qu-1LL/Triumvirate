@@ -1,13 +1,11 @@
 require('dotenv').config;
 
-const express = require('express');
+const triumvirate_app = require('express')();
 const bcrypt = require('bcrypt');
 const jsonwebtoken = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const triumvirate_app = express();
 const socketio = require('socket.io')()
-
 triumvirate_app.use(express.json());
 
 triumvirate_app.use(cors({
