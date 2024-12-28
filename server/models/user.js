@@ -6,6 +6,10 @@ const playerSchema = new mongoose.Schema({
         type: uuidv4,
         required: true
     },
+    isuser: {
+        type: Boolean,
+        default: false
+    },
     username: {
         type: String,
         required: true

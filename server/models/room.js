@@ -7,7 +7,7 @@ playerSchema = new mongoose.Schema({
         default: uuidv4,
         required: true,
     },
-    isHost: {
+    ishost: {
         type: Boolean,
         default: false,
     },
@@ -19,11 +19,11 @@ playerSchema = new mongoose.Schema({
         type: Number,
         default: 3,
     },
-    activeCards: {
+    activecards: {
         type: [String],
         default: []
     },
-    availableActions: {
+    availableactions: {
         type: [String],
         default: []
     }

@@ -15,14 +15,15 @@ const PORT = 3000;
 
 triumvirate_app.use(express.json());
 
-triumvirate_app.get('/rooms', (req, res) => {
-   res.send('entered rooms')
+triumvirate_app.get('/', (req, res) => {
+   res.send('server is ready')
 });
+triumvirate_app.post('/rooms', (req, res) => {
+  
+})
 
-console.log(process.env.MONGO_URI);
 
 triumvirate_app.listen(PORT,() =>{
   connectDB();
   console.log(`Trimvirate Server Running on http://localhost:${PORT}`);
 });
-//HdK2GnQKkmS0MrKR
