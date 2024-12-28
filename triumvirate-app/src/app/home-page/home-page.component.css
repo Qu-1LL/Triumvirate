@@ -1,0 +1,30 @@
+.topbar {
+    margin: 0%;
+    padding: 10px;
+    padding-left: 30px;
+    text-align: left;
+    background: rgb(248, 75, 52);
+    color: black;
+    font-size: 500%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+  
+.topbar h1 {
+    margin: 0%;
+}
+
+.sidebar {
+    height: 100%;
+    width: 180px;
+    padding: 5px;
+    position: fixed;
+    z-index: 1;
+    top: 1;
+    left: 1;
+    background: rgba(116, 230, 192, 0.9);
+    overflow-x: hidden;
+    padding-top: 20px;
+    font-family: Verdana, serif;
+    font-size: 16px;
+    text-align: left;
+}
