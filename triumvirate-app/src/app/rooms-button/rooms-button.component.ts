@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './rooms-button.component.css'
 })
 export class RoomsButtonComponent {
-  text: string = 'Join a Room!';
+  text: string = 'Join a Room';
 
   constructor( private router: Router) {
 
