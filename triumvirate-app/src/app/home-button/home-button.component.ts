@@ -3,20 +3,19 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-rooms-button',
+  selector: 'app-home-button',
   imports: [CommonModule],
-  templateUrl: './rooms-button.component.html',
-  styleUrl: './rooms-button.component.css'
+  templateUrl: './home-button.component.html',
+  styleUrl: './home-button.component.css'
 })
-export class RoomsButtonComponent {
-  text: string = 'Join a Room!';
-
+export class HomeButtonComponent {
+  text: string = 'Go Home';
+  
   constructor( private router: Router) {
-
+      
   }
-
+  
   swapPage(): void {
-    this.router.navigate(['/rooms']);
+    this.router.navigate(['/home']);
   }
-
 }
