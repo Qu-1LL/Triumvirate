@@ -11,16 +11,16 @@ import connectDB from './config/db.js';
 
 const triumvirate_app = express();
 
-const PORT = 3000; 
+const PORT = 5000; 
 
 triumvirate_app.use(express.json());
 
 triumvirate_app.get('/', (req, res) => {
    res.send('server is ready')
 });
-triumvirate_app.post('/rooms', (req, res) => {
-  
-})
+triumvirate_app.get('/rooms', (req, res) => {
+  res.send('Hello world');
+});
 
 
 triumvirate_app.listen(PORT,() =>{
