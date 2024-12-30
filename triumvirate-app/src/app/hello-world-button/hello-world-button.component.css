@@ -1,0 +1,19 @@
+.home_button {
+    padding: 6px;
+    height: 28px;
+    z-index: 1;
+    top: 1;
+    right: 1;
+    text-align: center;
+    font-size: 12px;
+    margin: 0px;
+    cursor: pointer;
+    font-family: Verdana;
+    background: rgb(155, 157, 238);
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+}
+.home_button:hover {
+    background: rgb(138, 140, 238);
+}
