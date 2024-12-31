@@ -5,9 +5,11 @@ import jsonwebtoken from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 
 import connectDB from './config/db.js';
+import playerSchema from './models/player.js'
 
 const triumvirate_app = express();
 
@@ -37,4 +39,5 @@ triumvirate_app.get('/', (req, res) => {
 
 triumvirate_app.get('/rooms', (req, res) => {
  res.send(['Hello world']);
+
 });
