@@ -38,6 +38,8 @@ export class StartComponent implements OnDestroy {
       );
       this.session.setSessionId(newPlayer._id);
       this.session.setName(newPlayer.playername);
+      console.log(this.session.getName());
+      console.log(this.session.getSessionId());
       } catch (error) {
       console.log('Error',error);
       return;

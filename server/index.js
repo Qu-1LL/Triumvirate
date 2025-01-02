@@ -39,9 +39,9 @@ triumvirate_app.listen(PORT,() =>{
 //   res.send('server is ready')
 // });
 
-triumvirate_app.post('/player', async(req, res) => {
-  const sname = await req.params.playername;
-  const player_data = await createPlayer({name: sname});
+triumvirate_app.post('/player/:playername', async(req, res) => {
+  const sname = req.params.playername;
+  const player_data = await createPlayer({playername: sname});
   res.json(player_data);
 });
 
