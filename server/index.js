@@ -54,3 +54,9 @@ triumvirate_app.get('/rooms', async (req, res) => {
   const rooms = await getAllRooms();
   res.json(rooms);
 });
+triumvirate_app.get('/player/:uid', async (req, res) => {
+  const playerId = req.params.uid
+  const player_data = await getPlayer(playerId);
+  res.json(player_data)
+
+})
