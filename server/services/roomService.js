@@ -1,5 +1,6 @@
 import { mongo } from 'mongoose';
 import Room from '../models/room.js';
+import { getPlayer } from './playerService.js';
 
 export async function createRoom(roomData){
     try {
@@ -19,3 +20,11 @@ export async function getAllRooms(){
        console.log(`Error in the getAllRooms function ${error}`) 
     }
 };
+export async function joinRoom(joinData){
+    try {
+       const playerId = await joinData[] 
+       Player.find({playerId}) 
+
+
+    }
+}

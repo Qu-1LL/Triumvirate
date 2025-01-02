@@ -52,5 +52,5 @@ triumvirate_app.listen(PORT,() =>{
 // });
 triumvirate_app.get('/rooms', async (req, res) => {  
   const rooms = await getAllRooms();
-  res.json(JSON.stringify(rooms));
+  res.json(rooms);
 });
