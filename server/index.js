@@ -57,6 +57,6 @@ triumvirate_app.get('/rooms', async (req, res) => {
 triumvirate_app.get('/player/:uid', async (req, res) => {
   const playerId = req.params.uid
   const player_data = await getPlayer(playerId);
-  res.json(player_data)
+  res.send(player_data)
 
 })

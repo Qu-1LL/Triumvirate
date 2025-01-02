@@ -22,8 +22,10 @@ export async function getAllRooms(){
 };
 // export async function joinRoom(joinData){
 //     try {
-//        const playerId = await joinData[] 
+//        const playerId = await joinData.player_id
+//        roomId = await 
 //        Player.find({playerId}) 
+
 
 
 //     }
