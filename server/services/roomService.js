@@ -20,11 +20,11 @@ export async function getAllRooms(){
        console.log(`Error in the getAllRooms function ${error}`) 
     }
 };
-export async function joinRoom(joinData){
-    try {
-       const playerId = await joinData[] 
-       Player.find({playerId}) 
+// export async function joinRoom(joinData){
+//     try {
+//        const playerId = await joinData[] 
+//        Player.find({playerId}) 
 
 
-    }
-}
+//     }
+// }
