@@ -1,58 +1,47 @@
 import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
-
-roomSchema = new mongoose.Schema({
-    roomId: {
-        type: String,
-        default: uuidv4,
-        required: true
-    },
-    createdAt: {
-        type: Date, 
-        default: []
-    },
-    roomName: {
+const roomSchema = new mongoose.Schema({
+    roomname: {
         type: String,
         required: true
     },
-    playerCount: {
+    playercount: {
         type: Number,
         default: 1,
         required: true
     },
-    maxPlayers: {
+    maxplayers: {
         type: Number,
         default: 8,
         required: true
     },
-    inProgress: {
+    inprogress: {
         type: Boolean,
         default: false,
         required: true
     },
-    players: {
-        type: [playerSchema],
-        default: []
-    },
+    players: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Player',
+    }],
     deck: {
         type: [String],
         default: []
     }, 
     treasury: {
         type: Number,
-        default: 0,Room,
-        type: [String],
-        default: []
+        default: 0
     },
     turnOrder: {
         type: [String],
         default: []
     },
     currentPlayerTurn: {
-        type: String
+        type: String,
+        default: ''
     }
 
 });
+
 const Room = mongoose.model('Room', roomSchema);
 
-module.exports = Room;
+export default Room;

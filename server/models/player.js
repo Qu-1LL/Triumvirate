@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import { generate } from 'random-words';
 
-playerSchema = new mongoose.Schema({
-    uid: {
-        type: String,
-        default: uuidv4,
-        required: true,
-    },
+export const playerSchema = new mongoose.Schema({
+    // uuid: {
+    //     type: String,
+    //     require: true,
+    // },
     ishost: {
         type: Boolean,
         default: false,
@@ -26,9 +25,15 @@ playerSchema = new mongoose.Schema({
     availableactions: {
         type: [String],
         default: []
-    }
-});
+    },
+    playername: {
+        type: String,
+        default: generate(1)[0],
+    },
+},
+
+);
 
 const Player = mongoose.model('Player', playerSchema);
 
-module.exports = Player;
+export default Player;

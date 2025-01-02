@@ -1,15 +1,19 @@
-import Player from './models/player.js';
+import Player from '../models/player.js';
 
-async function createPlayer(){
+export async function createPlayer(playerData) {
    try {
-    const newPlayer = new Player(playerData);
-    const savedPlayer = await newPlayer.save();
-
-    return savedPlayer;
+      const newPlayer = new Player(playerData);
+      const savedPlayer = await newPlayer.save();
+      return savedPlayer;
    } catch(error) {
     console.error(`Error creating player isntance ${error}`);
     throw new Error('Error creating player');
    }
 };
-
-modules.exports = { createPlayer }
+export async function getPlayer(playerId) { 
+   try {
+      return await Player.findOne({_id: playerId});
+   } catch(error) {
+      console.error(`Error when trying to fetch player data from id ${error}`);
+   }
+};
