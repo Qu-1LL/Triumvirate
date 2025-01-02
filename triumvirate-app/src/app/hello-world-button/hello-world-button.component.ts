@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
-
+import { Room } from '../room';
 
 @Component({
   selector: 'app-hello-world-button',
@@ -19,8 +19,8 @@ export class HelloWorldButtonComponent {
 
   async sendHelloWorld(): Promise<void> {
     try {
-      const helloString: string = await firstValueFrom(
-        this.http.get<string>(`${this.apiUrl}/rooms`)
+      const helloString: Room[] = await firstValueFrom(
+        this.http.get<Room[]>(`${this.apiUrl}/rooms`)
       );
       console.log(helloString);
     } catch (error) {

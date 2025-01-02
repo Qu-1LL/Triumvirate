@@ -45,7 +45,7 @@
     margin: 0px;
     cursor: pointer;
     font-family: Verdana;
-    background: rgb(106, 212, 177);
+    background: rgb(155, 157, 238);
     font-weight: bold;
     border: none;
     border-radius: 5px;
@@ -53,7 +53,7 @@
 }
 
 .login_button:hover {
-    background-color: #4fa78b;
+    background-color: rgb(138, 140, 238);
   }
   
   .login_button:disabled {

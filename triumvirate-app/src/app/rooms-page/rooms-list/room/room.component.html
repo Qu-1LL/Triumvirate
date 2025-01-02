@@ -1,9 +1,9 @@
 <div class="room_item">
-    <h2>{{ room.roomName }}: {{ isInProgress }}</h2>
+    <h2>{{ room.roomname }}: {{ isInProgress }}</h2>
     <h3>
-        <p>Players:</p>
+        <p>Players:({{ room.playercount }}/{{ room.maxplayers }})</p>
         <div id="players_list"*ngFor="let myPlayer of room.players">
-            <p>{{ myPlayer.playername }}</p>
+            <p>{{ myPlayer }}</p>
         </div> 
     </h3>
 </div>

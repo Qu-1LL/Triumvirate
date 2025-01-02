@@ -13,5 +13,5 @@ import { Player } from '../../../player';
 export class RoomComponent {
   @Input() room!: Room;
 
-  isInProgress: string = this.room.inProgress ? "In Progress" : "Waiting";
+  isInProgress: string = "Waiting" //this.room.inprogress ? "In Progress" : "Waiting";
 }
