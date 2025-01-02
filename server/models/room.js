@@ -1,33 +1,5 @@
-const mongoose = require('mongoose');
-const {v4: uuidv4 } = require('uuid')
-
-playerSchema = new mongoose.Schema({
-    uid: {
-        type: String,
-        default: uuidv4,
-        required: true,
-    },
-    ishost: {
-        type: Boolean,
-        default: false,
-    },
-    hand: {
-        type: [String],
-        default: [],
-    } ,
-    balance: {
-        type: Number,
-        default: 3,
-    },
-    activecards: {
-        type: [String],
-        default: []
-    },
-    availableactions: {
-        type: [String],
-        default: []
-    }
-});
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 roomSchema = new mongoose.Schema({
     roomId: {
@@ -68,10 +40,7 @@ roomSchema = new mongoose.Schema({
     }, 
     treasury: {
         type: Number,
-        default: 0,
-        required: true
-    },
-    senate: {
+        default: 0,Room,
         type: [String],
         default: []
     },
