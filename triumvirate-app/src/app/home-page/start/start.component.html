@@ -1,0 +1,23 @@
+<div class="username-input-container">
+        <form (ngSubmit)="startPlayer()" #loginForm="ngForm">
+            
+            <div class="form-group">
+    
+            <label for="username">Your Name:</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                [(ngModel)]="name"
+                required
+                minlength="3"
+                #usernameInput="ngModel"
+                placeholder="name"
+            >
+    
+    
+            
+            </div>
+            <button class = "login_button" type="submit" [disabled]="loginForm.form.invalid">Login</button>
+        </form>
+    </div>

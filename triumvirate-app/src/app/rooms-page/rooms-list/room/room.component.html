@@ -1,0 +1,11 @@
+<div class="room_item">
+    <h2>{{ room.roomName }}: {{ isInProgress }}</h2>
+    <h3>
+        <p>Players:</p>
+        <div id="players_list"*ngFor="let myPlayer of room.players">
+            <p>{{ myPlayer.playername }}</p>
+        </div> 
+    </h3>
+</div>
+
+
