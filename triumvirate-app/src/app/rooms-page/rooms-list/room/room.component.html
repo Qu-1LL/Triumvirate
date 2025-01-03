@@ -1,4 +1,4 @@
-<div class="room_item">
+<!-- <div class="room_item">
     <h2>{{ room.roomname }}: {{ isInProgressText }}</h2>
     <h3>
         <p>Players:({{ room.playercount }}/{{ room.maxplayers }})</p>
@@ -6,6 +6,22 @@
             <p>{{ name }}</p>
         </div> 
     </h3>
-</div>
+</div> -->
+
+<div class="card">
+    <span class="card__title"><p>{{ room.roomname }}</p>
+    <p>{{ isInProgressText }}</p></span>
+    <h3 class="card__content">
+        <p>Players:({{ room.playercount }}/{{ room.maxplayers }})</p>
+        <div id="players_list"*ngFor="let name of playerNames">
+            <p>{{ name }}</p>
+        </div> 
+        
+    </h3>
+    <form class="card__form">
+      
+      <button class="card__button">Join</button>
+    </form>
+  </div>
 
 
