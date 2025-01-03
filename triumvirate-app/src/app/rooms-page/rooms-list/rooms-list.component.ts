@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Room } from '../../room';
 import { RoomComponent } from './room/room.component';
-import { RoomService } from '../../services/room-service.service';
+import { RoomService } from '../../services/room.service';
 
 @Component({
   selector: 'app-rooms-list',

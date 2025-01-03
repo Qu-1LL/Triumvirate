@@ -20,10 +20,10 @@ export class RoomService {
       const rooms: Room[] = await firstValueFrom(
         this.http.get<Room[]>(`${this.apiUrl}/rooms`)
       );
-      this.currentRooms.next(rooms); // Update the existing BehaviorSubject
+      this.currentRooms.next(rooms);
       
     } catch (error) {
-      console.error('Failed to fetch rooms:', error);
+      console.error('Failed to get rooms:', error);
     }
   }
 }
