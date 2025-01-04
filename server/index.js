@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { createPlayer } from './services/playerService.js';
 import { getPlayer } from './services/playerService.js';
 import { createRoom } from './services/roomService.js';
+import { joinRoom } from './services/roomService.js';
 import { getAllRooms } from './services/roomService.js';
 import {v4 as uuidv4} from 'uuid';
 dotenv.config();
@@ -54,9 +55,16 @@ triumvirate_app.get('/rooms', async (req, res) => {
   const rooms = await getAllRooms();
   res.json(rooms);
 });
+
+triumvirate_app.put('/rooms/join', async (req, res) => {
+  const joinedRoom = await joinRoom(req.body['roomId'],req.body['playerId']);
+  res.json(joinedRoom);
+})
+
 triumvirate_app.get('/player/:uid', async (req, res) => {
   const playerId = req.params.uid
   const player_data = await getPlayer(playerId);
   res.send(player_data)
 
-})
+});
+

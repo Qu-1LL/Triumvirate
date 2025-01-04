@@ -26,4 +26,16 @@ export class RoomService {
       console.error('Failed to get rooms:', error);
     }
   }
+
+  async joinRoom(rid: string, pid: string): Promise<string> {
+    try {
+      const joinedRoom: Room = await firstValueFrom(
+        this.http.put<Room>(`${this.apiUrl}/rooms/join`,{'roomId': rid,'playerId': pid})
+      )
+      return joinedRoom._id;
+    } catch (error) {
+      console.error('Could not join the requested room:', error);
+      return '';
+    }
+  }
 }

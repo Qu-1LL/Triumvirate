@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Player } from '../../../player';
 import { PlayerService } from '../../../services/player.service'
+import { RoomService } from '../../../services/room.service'
+import { Router } from '@angular/router';
+import { SessionService} from '../../../services/session.service';
 
 
 @Component({
@@ -17,8 +20,15 @@ export class RoomComponent {
 
   playerNames: string[] = []
 
-  constructor (private playerService: PlayerService) { }
+  constructor (private playerService: PlayerService,
+    private roomService: RoomService,
+    private sessionService: SessionService,
+    private router: Router) { }
 
+  async joinRoom(): Promise<void> {
+    const roomId = await this.roomService.joinRoom(this.room._id,this.sessionService.getSessionId());
+    this.router.navigate(['/room/', roomId]);
+  }
 
   get isInProgressText(): string {
     return this.room.inprogress ? "In Progress" : "Waiting";
