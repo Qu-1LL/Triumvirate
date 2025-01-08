@@ -11,7 +11,7 @@ import { CreateRoomComponent } from './create-room/create-room.component';
   styleUrl: './rooms-page.component.css'
 })
 export class RoomsPageComp {
-  title = 'Lobby'
+  title = 'Rooms'
 
   constructor (private sessionService: SessionService) {}
 

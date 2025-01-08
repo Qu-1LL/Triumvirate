@@ -18,8 +18,8 @@ export class CreateRoomComponent {
     private sessionService: SessionService
   ) {}
 
-  swapPage(): void {
-    this.router.navigate(['/room/'])
-    this.roomService.createRoom(this.sessionService.getSessionId());
+  async swapPage(): Promise<void> {
+    const newRoom = await this.roomService.createRoom(this.sessionService.getSessionId());
+    this.router.navigate(['room/' + newRoom])
   }
 }

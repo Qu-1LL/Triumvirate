@@ -28,6 +28,15 @@ export async function getAllRooms(){
     }
 };
 
+export async function getRoom(roomId) {
+    try {
+        const myRoom = Room.findOne({_id: roomId})
+        return myRoom 
+    } catch (error) {
+        console.log(`Error finding the room with id: ${roomId}, ${error}`)
+    }
+}
+
 export async function setPlayerHost(roomId, playerId){
     try{
         const room = await Room.findById(roomid).populate('players', 'ishost');

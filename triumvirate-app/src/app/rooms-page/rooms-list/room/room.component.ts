@@ -29,7 +29,7 @@ export class RoomComponent {
     console.log(this.room._id);
     console.log(this.sessionService.getSessionId());
     const roomId = await this.roomService.joinRoom(this.room._id,this.sessionService.getSessionId());
-    this.router.navigate(['/room/', roomId]);
+    this.router.navigate(['room/', roomId]);
   }
 
   get isInProgressText(): string {

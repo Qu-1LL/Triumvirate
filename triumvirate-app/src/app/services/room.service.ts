@@ -27,6 +27,29 @@ export class RoomService {
     }
   }
 
+  async getRoom(roomId: string): Promise<Room> {
+    try {
+      const room: Room = await firstValueFrom(
+        this.http.get<Room>(`${this.apiUrl}/room/${roomId}`)
+      );
+      return room;
+
+    } catch (error) {
+      console.error('Failed to get the room with Id: ',roomId,' ', error)
+      return {_id:'',
+        maxplayers:0,
+        playercount:0,
+        roomname:'',
+        inprogress:false,
+        players:[],
+        deck:[],
+        treasury:0,
+        turnOrder:[],
+        currentPlayerTurn:'',
+        __v:0};
+    }
+  }
+
   async joinRoom(rid: string, pid: string): Promise<string> {
     try {
       const joinedRoom: Room = await firstValueFrom(
