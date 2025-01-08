@@ -97,8 +97,11 @@ export async function kickPlayer(roomId, playerId, playerToKickId){
     try{
         const room = await Room.findById(roomId);
         const playerInRoom = room.includes({players: playerToKickId})
-        const player = await Player.findById(playerId);
-        const playerIsHost = await player.ishost;
+        const playerIsHost = false
+        const player = await Player.findById(playerId).then((player) => {
+            const playerIsHost = player.ishost;
+        });
+        
         if (playerIsHost | playerInRoom){
             const updatedRoom = await Room.findByIdAndDelete(roomId, {players: playerToKickId}, {new: true});
             const updateKickedPlayer = await Player.findByIdAndUpdate(playerToKickId, {inroom: false}, {new: true});
