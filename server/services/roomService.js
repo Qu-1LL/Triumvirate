@@ -105,7 +105,7 @@ export async function kickPlayer(roomId, playerId, playerToKickId){
         if (playerIsHost | playerInRoom){
             const updatedRoom = await Room.findByIdAndDelete(roomId, {players: playerToKickId}, {new: true});
             const updateKickedPlayer = await Player.findByIdAndUpdate(playerToKickId, {inroom: false}, {new: true});
-            updatePlayerCount(roomId);
+            const updatedroom = await updatePlayerCount(roomId);
             return updatedRoom;
         }
         else {
@@ -116,7 +116,7 @@ export async function kickPlayer(roomId, playerId, playerToKickId){
     }
 }
 
-export async function changeHost(roomId, playerId, playerToHostId){
+export async function changeHost(roomId, playerId, playerToHostId){ // remember to omit host id from client accesibility on front end. Can probably tackle this issue with jwt 
     try{
         const room = await Room.findById(roomId);
         const playerInRoom = room.includes({players: playerToHostId})
