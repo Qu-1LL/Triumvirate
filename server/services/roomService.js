@@ -1,4 +1,5 @@
 import { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import Room from '../models/room.js';
 import { getPlayer } from './playerService.js';
 import Player from '../models/player.js';
@@ -23,15 +24,15 @@ export async function getAllRooms(){
 };
 export async function joinRoom(roomId, playerId){
     try {
-        const room = Room.find({roomId})
-        const player = Player.find({playerId}) 
+        const room = Room.findOne({_id: roomId})
+        const player = Player.findOne({_id: playerId}) 
         if (!room | !player) {
-            console.log((player ? 'Room' : 'Player'),' not found');
+            console.error((player ? 'Room' : 'Player'),' not found');
             return;
         }
-        room.players.push(playerId); // fix this it doesn't like the "push" function
-        const updatedRoom = await room.save();
-        return updatedRoom;
+        room.players.push(player);
+        room.update();
+        return room;
     } catch (error) {
         console.log(`Error joining room, ${error}`)
     }

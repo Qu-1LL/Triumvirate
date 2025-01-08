@@ -32,6 +32,7 @@ export class RoomService {
       const joinedRoom: Room = await firstValueFrom(
         this.http.put<Room>(`${this.apiUrl}/rooms/join`,{'roomId': rid,'playerId': pid})
       )
+      console.log(joinedRoom);
       return joinedRoom._id;
     } catch (error) {
       console.error('Could not join the requested room:', error);

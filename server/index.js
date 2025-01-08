@@ -56,7 +56,9 @@ triumvirate_app.get('/rooms', async (req, res) => {
 });
 
 triumvirate_app.put('/rooms/join', async (req, res) => {
-  const joinedRoom = await joinRoom(req.body['roomId'],req.body['playerId']);
+  const roomId = await req.body['roomId']
+  const playerId = await req.body['playerId']
+  const joinedRoom = await joinRoom(roomId,playerId);
   res.json(joinedRoom);
 })
 
