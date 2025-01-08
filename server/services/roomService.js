@@ -24,9 +24,6 @@ export async function getAllRooms(){
        console.log(`Error in the getAllRooms function ${error}`) 
     }
 };
-async function updatePlayerCount(roomId){
-
-};
 
 export async function setPlayerHost(roomId, playerId){
     try{
@@ -55,6 +52,18 @@ export async function setPlayerHost(roomId, playerId){
             console.log(`An error has occured trying to set the player as a host: ${error}`);        };
 
 } 
+async function updatePlayerCount(roomId){
+    try{
+    const room = await Room.findById(roomId).select('players');
+    const newPlayerCount = room.players.length;
+    const updatedRoom = await Room.findByIdAndUpdate(roomId, {playercount: newPlayerCount}, {new: true});
+    
+
+    } catch(error) {
+        console.log(`An error as occured when trying to calculate the player count ${error}`)
+    }
+};
+
 export async function joinRoom(roomId, playerId){
     try {
         const player = Player.findById(playerId); 
