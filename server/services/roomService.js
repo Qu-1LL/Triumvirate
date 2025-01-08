@@ -22,16 +22,15 @@ export async function getAllRooms(){
        console.log(`Error in the getAllRooms function ${error}`) 
     }
 };
+
 export async function joinRoom(roomId, playerId){
     try {
-        const room = Room.findOne({_id: roomId})
-        const player = Player.findOne({_id: playerId}) 
+        const player = Player.findById(playerId) 
+        const room = Room.findByIdAndUpdate(roomId, {$push : {players: playerId}}, {new: true})
         if (!room | !player) {
             console.error((player ? 'Room' : 'Player'),' not found');
             return;
         }
-        room.players.push(player);
-        room.update();
         return room;
     } catch (error) {
         console.log(`Error joining room, ${error}`)
