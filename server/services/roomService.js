@@ -6,10 +6,13 @@ import Player from '../models/player.js';
 
 export async function createRoom(uid){
     try {
-        const newRoom  = new Room({players:getPlayer(uid)});
+        const myPlayer = await getPlayer(uid)
+        const newRoom  = new Room({roomname: myPlayer.playername + '\'s Room'});
         const savedRoom = newRoom.save();
+        const roomId = await savedRoom._id
 
-        setPlayerHost(uid,newRoom._id)
+        joinRoom(roomId,uid)
+        setPlayerHost(roomId,uid)
         return savedRoom;
     } catch(error) {
         console.log(`Encountered an Error when creating a room: ${error}`)
