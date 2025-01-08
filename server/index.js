@@ -47,9 +47,12 @@ triumvirate_app.post('/player/:playername', async(req, res) => {
 
 // triumvirate_app.get('/player')
 
-// triumvirate_app.post('/rooms/:roomdata', async (req, res){
+triumvirate_app.post('/rooms/:uid', async (req, res) => {
+  const room_data = await createRoom(req.params.uid);
+  res.json(room_data);
+});
 
-// });
+
 triumvirate_app.get('/rooms', async (req, res) => {  
   const rooms = await getAllRooms();
   res.json(rooms);

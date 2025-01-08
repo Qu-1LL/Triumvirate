@@ -1,13 +1,15 @@
 import { mongo } from 'mongoose';
 import mongoose from 'mongoose';
 import Room from '../models/room.js';
-import { getPlayer } from './playerService.js';
+import { getPlayer, setPlayerHost } from './playerService.js';
 import Player from '../models/player.js';
 
-export async function createRoom(roomData){
+export async function createRoom(uid){
     try {
-        const newRoom  = new Room(roomData);
+        const newRoom  = new Room({players:getPlayer(uid)});
         const savedRoom = newRoom.save();
+
+        setPlayerHost(uid,newRoom._id)
         return savedRoom;
     } catch(error) {
         console.log(`Encountered an Error when creating a room: ${error}`)

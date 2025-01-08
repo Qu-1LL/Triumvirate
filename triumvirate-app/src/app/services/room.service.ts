@@ -39,4 +39,18 @@ export class RoomService {
       return '';
     }
   }
+
+  async createRoom(pid: string): Promise<string> {
+    try {
+      const createdRoom: Room = await firstValueFrom(
+        this.http.post<Room>(`${this.apiUrl}/rooms/${pid}`,{observable: 'response'})
+      );
+      return createdRoom._id;
+    } catch (error) {
+      console.error('Could not create room:', error);
+      return '';
+    }
+  }
 }
+
+
