@@ -19,7 +19,6 @@ export async function getPlayer(playerId) {
 };
 
 export async function deletePlayer(playerId) {
-   console.log('Made it to the Service', playerId)
    try {
       const deletedPlayer = await Player.deleteOne({_id: playerId});
       return deletedPlayer;

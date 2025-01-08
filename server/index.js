@@ -68,7 +68,6 @@ triumvirate_app.get('/player/:uid', async (req, res) => {
 });
 
 triumvirate_app.delete('/player/:uid', async (req, res) => {
-  console.log("Made it to the endpoint")
   const playerId = req.params.uid
   const player_data = await deletePlayer(playerId);
   res.send(player_data)

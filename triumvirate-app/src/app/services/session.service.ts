@@ -30,7 +30,6 @@ export class SessionService {
   }
 
   async signOut() {
-    console.log('Attempting to sign out ',this.sessionId);
     try {
       await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/player/${this.sessionId}`));
     } catch (error) {

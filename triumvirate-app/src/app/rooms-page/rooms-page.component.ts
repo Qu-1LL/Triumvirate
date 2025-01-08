@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { HomeButtonComponent } from '../home-button/home-button.component';
 import { RoomsListComponent } from './rooms-list/rooms-list.component';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-rooms-page',
@@ -11,5 +12,15 @@ import { RoomsListComponent } from './rooms-list/rooms-list.component';
 export class RoomsPageComp {
   title = 'Lobby'
 
-  //when closes, sign out of sessionService and delete player
+  constructor (private sessionService: SessionService) {}
+
+  @HostListener('window:unload', ['$event'])
+  onUnload(): void {
+    if (this.sessionService.getSessionId() != '') {
+      this.sessionService.signOut();
+    }
+  }
+
+  
+
 }
