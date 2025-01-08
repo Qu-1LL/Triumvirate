@@ -1,0 +1,24 @@
+.button {
+    padding: 5px 10px;
+    margin-top: 0px;
+    margin-right: 15px;
+    border: 3px solid #000000;
+    box-shadow: 3px 3px 0 #000000;
+    font-weight: 750;
+    background: #ffa201;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+  }
+  
+  .button:hover {
+    translate: 1.5px 1.5px;
+    box-shadow: 1.5px 1.5px 0 #000000;
+    background: #dd0000;
+  }
+  
+  .button:active {
+    translate: 3px 3px;
+    box-shadow: 0 0 0 #000000;
+  }

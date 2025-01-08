@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Room } from '../../../room';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Player } from '../../../player';
 import { PlayerService } from '../../../services/player.service'
 import { RoomService } from '../../../services/room.service'
 import { Router } from '@angular/router';

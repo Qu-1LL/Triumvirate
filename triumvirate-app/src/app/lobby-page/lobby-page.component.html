@@ -4,14 +4,34 @@
 
 
 <div class="sidebar">
-
+    <p>Players:({{ room.playercount }}/{{ room.maxplayers }})</p>
+    <div id="players_list"*ngFor="let player of players">
+            <div class="head">{{ player.playername }}<app-kick-button [id]="player._id" [roomId]="this.room._id"></app-kick-button></div>
+    </div>
+    
+   
 </div>
 
 <div class="main">
     <main>
-        <p>Players:({{ room.playercount }}/{{ room.maxplayers }})</p>
-            <div id="players_list"*ngFor="let name of playerNames">
-                <p>{{ name }}</p>
-            </div> 
+        <div class="jeff-is-wet">
+            <div class="cube-loader">
+            <div class="cube-top"></div>
+                <div class="cube-wrapper">
+                    <span class="cube-span" style="--i:0">
+                        <div style="text-align: center; font-size: 50px;" class="taco-container">🌮</div>
+                    </span>
+                    <span class="cube-span" style="--i:1">
+                        <div style="text-align: center; font-size: 50px;" class="taco-container">🌮</div>
+                    </span>
+                    <span class="cube-span" style="--i:2">
+                        <div style="text-align: center; font-size: 50px;" class="taco-container">🌮</div>
+                    </span>
+                    <span class="cube-span" style="--i:3">
+                        <div style="text-align: center; font-size: 50px;" class="taco-container">🌮</div>
+                    </span>
+                </div>
+            </div>
+        </div> 
     </main>
   </div>

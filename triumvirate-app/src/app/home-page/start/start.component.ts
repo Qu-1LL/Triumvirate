@@ -42,7 +42,7 @@ export class StartComponent implements OnDestroy {
       console.log('Error',error);
       return;
     }
-    this.router.navigate(['/rooms']);
+    this.router.navigate(['rooms']);
   }
   
   ngOnDestroy(): void {

@@ -16,6 +16,6 @@ export class HomeButtonComponent {
   }
   
   swapPage(): void {
-    this.router.navigate(['/home']);
+    this.router.navigate(['home']);
   }
 }

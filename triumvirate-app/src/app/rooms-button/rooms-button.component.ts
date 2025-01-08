@@ -16,7 +16,7 @@ export class RoomsButtonComponent {
   }
 
   swapPage(): void {
-    this.router.navigate(['/rooms']);
+    this.router.navigate(['rooms']);
   }
 
 }

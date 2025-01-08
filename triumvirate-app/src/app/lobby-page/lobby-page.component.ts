@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { RoomService } from '../services/room.service';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '../services/player.service';
+import { KickButtonComponent } from './kick-button/kick-button.component';
 import { Player } from '../player';
 
 @Component({
   selector: 'app-lobby-page',
-  imports: [CommonModule],
+  imports: [CommonModule, KickButtonComponent],
   templateUrl: './lobby-page.component.html',
   styleUrl: './lobby-page.component.css'
 })
-export class LobbyPageComp {
+export class LobbyPageComp implements OnInit{
   title: string = 'Lobby'
   room: Room = {_id:'',
     maxplayers:0,
@@ -25,7 +26,7 @@ export class LobbyPageComp {
     turnOrder:[],
     currentPlayerTurn:'',
     __v:0};
-    playerNames: string[] = []
+  players: Player[] = []
   
   constructor (private route: ActivatedRoute,
     private roomService: RoomService,
@@ -33,15 +34,17 @@ export class LobbyPageComp {
   ) {
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
-      window.location.reload();
     })
+  }
+
+  ngOnInit(): void {
     this.room.players.forEach( async (uid) => {
-      await this.playerService.getPlayerName(uid).then(player => {
-        this.playerNames.push(player);
+      await this.playerService.getPlayer(uid).then(player => {
+        this.players.push(player);
       }, (error) => {
         console.error('Error getting player names', error);
       });
     });
+    
   }
-
 }

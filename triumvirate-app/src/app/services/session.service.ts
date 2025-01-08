@@ -11,22 +11,23 @@ export class SessionService {
   myName: string = ''
   apiUrl: string = 'http://localhost:5000'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+   }
 
   setSessionId(newId: string) {
-    this.sessionId = newId;
+    sessionStorage.setItem('id',newId)
   }
 
   getSessionId() {
-    return this.sessionId;
+    return sessionStorage.getItem('id') ?? ''
   }
 
   setName(name: string) {
-    this.myName = name;
+    sessionStorage.setItem('name',name)
   }
 
   getName() {
-    return this.myName;
+    return sessionStorage.getItem('name') ?? ''
   }
 
   async signOut() {
@@ -35,7 +36,7 @@ export class SessionService {
     } catch (error) {
       console.error('Failed to delete player with ID:',this.sessionId,'. (may already be deleted) ', error)
     }
-    this.setSessionId('');
-    this.setName('');
+    sessionStorage.setItem('id','')
+    sessionStorage.setItem('name','')
   }
 }

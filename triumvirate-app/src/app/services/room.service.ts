@@ -74,6 +74,20 @@ export class RoomService {
       return '';
     }
   }
+
+  async kickPlayer(roomId: string, playerId: string, playerToKickId: string): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.patch<Room>(`${this.apiUrl}/rooms/kick`,
+          {observable: 'response', 
+            'roomId': roomId,
+            'playerId': playerId,
+            'playerToKickId': playerToKickId })
+      )
+    } catch (error) {
+      console.error('Could not kick player,', error);
+    }
+  }
 }
 
 
