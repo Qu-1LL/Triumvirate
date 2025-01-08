@@ -10,4 +10,6 @@ import { RoomsListComponent } from './rooms-list/rooms-list.component';
 })
 export class RoomsPageComp {
   title = 'Lobby'
+
+  //when closes, sign out of sessionService and delete player
 }

@@ -17,3 +17,14 @@ export async function getPlayer(playerId) {
       console.error(`Error when trying to fetch player data from id ${error}`);
    }
 };
+
+export async function deletePlayer(playerId) {
+   console.log('Made it to the Service', playerId)
+   try {
+      const deletedPlayer = await Player.findOne(playerId);
+      await deletedPlayer.remove();
+      return deletedPlayer;
+   } catch (error) {
+      console.error(`Error deleting player: ${error}`);
+   }
+};

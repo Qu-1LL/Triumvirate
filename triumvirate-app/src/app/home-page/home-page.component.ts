@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StartComponent } from './start/start.component';
 import { HelloWorldButtonComponent } from '../hello-world-button/hello-world-button.component';
 import { RoomsButtonComponent } from '../rooms-button/rooms-button.component';
 import { CommonModule } from '@angular/common';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-home-page',
@@ -10,6 +11,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
-export class HomePageComp {
+export class HomePageComp implements OnInit {
   title = 'Triumvirate';
+
+  constructor (private sessionService: SessionService) {}
+
+
+  ngOnInit(): void {
+    this.sessionService.signOut();
+  }
+  //oninit, sign out sessionService and delete current player
 }

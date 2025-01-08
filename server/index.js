@@ -4,11 +4,10 @@ import express from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { createPlayer } from './services/playerService.js';
-import { getPlayer } from './services/playerService.js';
-import { createRoom } from './services/roomService.js';
-import { joinRoom } from './services/roomService.js';
-import { getAllRooms } from './services/roomService.js';
+import { getPlayer, deletePlayer, createPlayer } from './services/playerService.js';
+
+import { joinRoom, getAllRooms, createRoom } from './services/roomService.js';
+
 import {v4 as uuidv4} from 'uuid';
 dotenv.config();
 
@@ -66,5 +65,12 @@ triumvirate_app.get('/player/:uid', async (req, res) => {
   const player_data = await getPlayer(playerId);
   res.send(player_data)
 
+});
+
+triumvirate_app.delete('/player/:uid', async (req, res) => {
+  console.log("Made it to the endpoint")
+  const playerId = req.params.uid
+  const player_data = await deletePlayer(playerId);
+  res.send(player_data)
 });
 
