@@ -11,7 +11,7 @@ export async function createRoom(uid){
         const savedRoom = await newRoom.save();
         const roomId = await savedRoom._id.toString();
         const newRoomData = await setPlayerHost(roomId, uid)
-        return savedRoom;
+        return newRoomData;
     } catch(error) {
         console.log(`Encountered an Error when creating a room: ${error}`)
     };
