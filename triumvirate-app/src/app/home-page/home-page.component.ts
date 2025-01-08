@@ -18,7 +18,9 @@ export class HomePageComp implements OnInit {
 
 
   ngOnInit(): void {
-    this.sessionService.signOut();
+    if (this.sessionService.getSessionId() != '') {
+      this.sessionService.signOut();
+    }
+
   }
-  //oninit, sign out sessionService and delete current player
 }
