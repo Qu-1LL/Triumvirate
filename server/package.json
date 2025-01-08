@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.2",
     "random-words": "^2.0.1",
+    "server": "file:",
     "socket.io": "^4.8.1",
     "uuid": "^11.0.3"
   }
