@@ -112,14 +112,25 @@ export async function kickPlayer(roomId, playerId, playerToKickId){
         console.log(`Cannot kick player with id: (${playerToKickId}) Error: ${error}`)
     }
 }
-// export async function changeHost(roomId, playerId, playerToHost){
-//     try{
 
-
-//     } catch(error){
-//         console.log(`Encountered an error while trying to make (${playerToHost}) the host. The current host is (${playerToHost})`);
-//     }
-// }
+export async function changeHost(roomId, playerId, playerToHostId){
+    try{
+        const room = await Room.findById(roomId);
+        const playerInRoom = room.includes({players: playerToHostId})
+        const player = await Player.findById(playerId);
+        const playerIsHost = await player.ishost;
+        if (playerIsHost | playerInRoom){
+            setPlayerHost(playerId)
+            const updatedRoom = setPlayerHost(playerToHostId)
+            return updatedRoom
+        }
+        else {
+            console.log(`The player you are trying to make a host is not in the game.`)
+        }
+    } catch(error){
+        console.log(`Encountered an error while trying to make (${playerToHost}) the host. The current host is (${playerToHost})`);
+    }
+}
 export async function deleteRoom(roomId){
 
 }
