@@ -93,6 +93,33 @@ export async function joinRoom(roomId, playerId){
         console.log(`Error joining room, ${error}`)
     }
 };
+export async function kickPlayer(roomId, playerId, playerToKickId){
+    try{
+        const room = await Room.findById(roomId);
+        const playerInRoom = room.includes({players: playerToKickId})
+        const player = await Player.findById(playerId);
+        const playerIsHost = await player.ishost;
+        if (playerIsHost | playerInRoom){
+            const updatedRoom = await Room.findByIdAndDelete(roomId, {players: playerToKickId}, {new: true});
+            const updateKickedPlayer = await Player.findByIdAndUpdate(playerToKickId, {inroom: false}, {new: true});
+            updatePlayerCount(roomId);
+            return updatedRoom;
+        }
+        else {
+            console.log(`Cannot kick player because player: (${playerId}) is not the host or player to kick is not in room.`)
+        }
+    } catch(error){
+        console.log(`Cannot kick player with id: (${playerToKickId}) Error: ${error}`)
+    }
+}
+// export async function changeHost(roomId, playerId, playerToHost){
+//     try{
+
+
+//     } catch(error){
+//         console.log(`Encountered an error while trying to make (${playerToHost}) the host. The current host is (${playerToHost})`);
+//     }
+// }
 export async function deleteRoom(roomId){
 
 }
