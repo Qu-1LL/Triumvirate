@@ -1,7 +1,7 @@
 import { mongo } from 'mongoose';
 import mongoose from 'mongoose';
 import Room from '../models/room.js';
-import { getPlayer, setPlayerHost } from './playerService.js';
+import { getPlayer } from './playerService.js';
 import Player from '../models/player.js';
 
 export async function createRoom(uid){
