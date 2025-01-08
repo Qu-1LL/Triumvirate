@@ -21,7 +21,11 @@ export async function getPlayer(playerId) {
 
 export async function deletePlayer(playerId) {
    try {
-      const deletedPlayer = await Player.deleteMany({_id: playerId});
+      const player = await Player.findById(playerId);
+      if (!player.inroom){
+         const deletedRoom = Room.deleteOne({players: playerId})
+      }
+      const deletedPlayer = await Player.deleteOne({_id: playerId});
       console.log('Trying to delete player rn')
       return deletedPlayer;
    } catch (error) {

@@ -7,10 +7,12 @@ import Player from '../models/player.js';
 export async function createRoom(uid){
     try {
         const myPlayer = await getPlayer(uid)
-        const newRoom  = new Room({roomname: myPlayer.playername + '\'s Room', players: myPlayer});
+        const newRoom  = new Room({roomname: myPlayer.playername + '\'s Room'});
         const savedRoom = await newRoom.save();
         const roomId = await savedRoom._id.toString();
+        joinRoom(roomId, uid);
         const newRoomData = await setPlayerHost(roomId, uid)
+        updatePlayerCount(roomId)
         return newRoomData;
     } catch(error) {
         console.log(`Encountered an Error when creating a room: ${error}`)
@@ -43,7 +45,6 @@ export async function setPlayerHost(roomId, playerId){
         });
         const player = await  Player.findById(playerId);
         const playerHostStatus = !player.ishost;
-        console.log(playerHostStatus)
 
         const updatedPlayer = await Player.findByIdAndUpdate(playerId, {$set:{ishost: playerHostStatus}}, {new: true})
         const updatedRoom = await Room.findByIdAndUpdate(roomId, {'players':playerId}, {new: true})
@@ -68,15 +69,21 @@ async function updatePlayerCount(roomId){
 export async function joinRoom(roomId, playerId){
     try {
         const player = Player.findById(playerId);
-
-        const room = Room.findByIdAndUpdate(roomId, {$push : {players: playerId}}, {$inc: {playercount: 1}}, {new: true})
+        const updatedRoomStatus = Player.findByIdAndUpdate(playerId, {inroom: true}, {new: true})
+        const room = Room.findByIdAndUpdate(roomId, {$push : {players: playerId}}, {new: true})
+        
         if (!room | !player) {
             console.error((player ? 'Room' : 'Player'),' not found');
             return;
         }
-        updatePlayerCount(roomId);
+
+        await updatePlayerCount(roomId);
+
         return room;
     } catch (error) {
         console.log(`Error joining room, ${error}`)
     }
 };
+export async function deleteRoom(roomId){
+
+}
