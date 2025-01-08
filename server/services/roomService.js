@@ -4,10 +4,13 @@ import Room from '../models/room.js';
 import { getPlayer } from './playerService.js';
 import Player from '../models/player.js';
 
-export async function createRoom(roomData){
+export async function createRoom(uid){
     try {
-        const newRoom  = new Room(roomData);
-        const savedRoom = newRoom.save();
+        const myPlayer = await getPlayer(uid)
+        const newRoom  = new Room({roomname: myPlayer.playername + '\'s Room', players: myPlayer});
+        const savedRoom = await newRoom.save();
+        const roomId = await savedRoom._id.toString();
+        const newRoomData = await setPlayerHost(roomId, uid)
         return savedRoom;
     } catch(error) {
         console.log(`Encountered an Error when creating a room: ${error}`)
@@ -25,7 +28,7 @@ export async function getAllRooms(){
 
 export async function setPlayerHost(roomId, playerId){
     try{
-        const room = await Room.findById(roomid).populate('players', 'ishost');
+        const room = await Room.findById(roomId).populate('players', 'ishost');
         const playerExists = await room.players.includes(playerId);
 
         if (!room | playerExists){
@@ -38,13 +41,13 @@ export async function setPlayerHost(roomId, playerId){
                 return null;
             }
         });
-        const player = room.player.find(p => p._id === playerId);
-        const playerHostStatus = player.ishost;
+        const player = await  Player.findById(playerId);
+        const playerHostStatus = !player.ishost;
+        console.log(playerHostStatus)
 
-        player.ishost = !playerHostStatus;
+        const updatedPlayer = await Player.findByIdAndUpdate(playerId, {$set:{ishost: playerHostStatus}}, {new: true})
+        const updatedRoom = await Room.findByIdAndUpdate(roomId, {'players':playerId}, {new: true})
 
-        await player.save();
-        const updatedRoom = await room.save();
         return updatedRoom;
     }catch(error){
             console.log(`An error has occured trying to set the player as a host: ${error}`);        };
