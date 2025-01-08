@@ -63,7 +63,9 @@ triumvirate_app.post('/room/create/:uid', async (req, res) => {
 })
 
 triumvirate_app.put('/rooms/join', async (req, res) => {
-  const joinedRoom = await joinRoom(req.body['roomId'],req.body['playerId']);
+  const roomId = await req.body['roomId']
+  const playerId = await req.body['playerId']
+  const joinedRoom = await joinRoom(roomId,playerId);
   res.json(joinedRoom);
 })
 
@@ -75,7 +77,6 @@ triumvirate_app.get('/player/:uid', async (req, res) => {
 });
 
 triumvirate_app.delete('/player/:uid', async (req, res) => {
-  console.log("Made it to the endpoint")
   const playerId = req.params.uid
   const player_data = await deletePlayer(playerId);
   res.send(player_data)

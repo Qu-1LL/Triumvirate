@@ -26,6 +26,8 @@ export class RoomComponent {
     private router: Router) { }
 
   async joinRoom(): Promise<void> {
+    console.log(this.room._id);
+    console.log(this.sessionService.getSessionId());
     const roomId = await this.roomService.joinRoom(this.room._id,this.sessionService.getSessionId());
     this.router.navigate(['/room/', roomId]);
   }
