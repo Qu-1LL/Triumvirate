@@ -64,7 +64,8 @@ async function updatePlayerCount(roomId){
 
 export async function joinRoom(roomId, playerId){
     try {
-        const player = Player.findById(playerId); 
+        const player = Player.findById(playerId);
+
         const room = Room.findByIdAndUpdate(roomId, {$push : {players: playerId}}, {$inc: {playercount: 1}}, {new: true})
         if (!room | !player) {
             console.error((player ? 'Room' : 'Player'),' not found');
