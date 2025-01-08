@@ -62,12 +62,7 @@ triumvirate_app.get('/rooms', async (req, res) => {
   res.json(rooms);
 });
 
-// triumvirate_app.post('/room/create/:uid', async (req, res) => {
-//   const playerId = req.params.uid;
-//   const playerData = getPlayer(playerId)
 
-//   const roomData = await createRoom({players: })
-// })
 
 triumvirate_app.put('/rooms/join', async (req, res) => {
   const roomId = await req.body['roomId']

@@ -10,6 +10,10 @@ export const playerSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    inroom: {
+        type: Boolean,
+        default: false,
+    },
     hand: {
         type: [String],
         default: [],

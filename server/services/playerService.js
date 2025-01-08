@@ -21,17 +21,14 @@ export async function getPlayer(playerId) {
 
 export async function deletePlayer(playerId) {
    try {
+      const player = await Player.findById(playerId);
+      if (!player.inroom){
+         const deletedRoom = Room.deleteOne({players: playerId})
+      }
       const deletedPlayer = await Player.deleteOne({_id: playerId});
+      console.log('Trying to delete player rn')
       return deletedPlayer;
    } catch (error) {
       console.error(`Error deleting player: ${error}`);
    }
 };
-// export async function setPlayerHost(playerId, roomId) {
-//    console.log(`Making player with id: (${playerId}) into the room host of room of id: (${roomId})`);
-//    const 
-//    const updateUser = await Player.findOneAndUpdate(playerId, {ishost: true}, {new: true});
-//    try {
-
-//    }
-// }
