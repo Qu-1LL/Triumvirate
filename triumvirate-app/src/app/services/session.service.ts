@@ -7,8 +7,6 @@ import { firstValueFrom } from 'rxjs';
 })
 export class SessionService {
 
-  sessionId: string = ''
-  myName: string = ''
   apiUrl: string = 'http://localhost:5000'
 
   constructor(private http: HttpClient) {
@@ -32,9 +30,9 @@ export class SessionService {
 
   async signOut() {
     try {
-      await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/player/${this.sessionId}`));
+      await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/player/${sessionStorage.getItem('id')}`));
     } catch (error) {
-      console.error('Failed to delete player with ID:',this.sessionId,'. (may already be deleted) ', error)
+      console.error('Failed to delete player with ID:',sessionStorage.getItem('id'),'. (may already be deleted) ', error)
     }
     sessionStorage.setItem('id','')
     sessionStorage.setItem('name','')

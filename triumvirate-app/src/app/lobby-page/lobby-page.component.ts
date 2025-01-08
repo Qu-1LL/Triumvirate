@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { PlayerService } from '../services/player.service';
 import { KickButtonComponent } from './kick-button/kick-button.component';
 import { Player } from '../player';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-lobby-page',
@@ -27,14 +28,20 @@ export class LobbyPageComp implements OnInit{
     currentPlayerTurn:'',
     __v:0};
   players: Player[] = []
+
+  nameSession: string = ''
+  idSession: string = ''
   
   constructor (private route: ActivatedRoute,
     private roomService: RoomService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private sessionService: SessionService
   ) {
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
     })
+    this.nameSession = sessionService.getName()
+    this.idSession = sessionService.getSessionId()
   }
 
   ngOnInit(): void {

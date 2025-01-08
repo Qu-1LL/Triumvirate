@@ -8,6 +8,7 @@
     <div id="players_list"*ngFor="let player of players">
             <div class="head">{{ player.playername }}<app-kick-button [id]="player._id" [roomId]="this.room._id"></app-kick-button></div>
     </div>
+    {{ nameSession }} {{ idSession }}
     
    
 </div>

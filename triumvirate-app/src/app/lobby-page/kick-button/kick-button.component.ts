@@ -18,6 +18,7 @@ export class KickButtonComponent {
 
   kickPlayer(): void {
     this.roomService.kickPlayer(this.roomId,this.sessionService.getSessionId(),this.id);
+    console.log(this.sessionService.getSessionId(),this.sessionService.getName())
   }
 
 

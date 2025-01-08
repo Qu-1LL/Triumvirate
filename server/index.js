@@ -62,7 +62,7 @@ triumvirate_app.get('/rooms', async (req, res) => {
   res.json(rooms);
 });
 
-triumvirate_app.patch('rooms/kick', async (req, res) => {
+triumvirate_app.put('lobby/kick', async (req, res) => {
   const roomId = await req.body['roomId']
   const playerId = await req.body['playerId']
   const playerToKickId = await req.body['playerToKickId']
