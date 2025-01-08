@@ -5,7 +5,6 @@ import { LobbyPageComp } from '../lobby-page/lobby-page.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
-    {path: '**', redirectTo: '/home'},
     {path: 'home', component: HomePageComp},
     {path: 'rooms', component: RoomsPageComp},
     {path: 'room/:roomId', component: LobbyPageComp}

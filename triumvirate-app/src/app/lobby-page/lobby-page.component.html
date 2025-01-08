@@ -4,11 +4,14 @@
 
 
 <div class="sidebar">
-    
+
 </div>
 
 <div class="main">
     <main>
-
+        <p>Players:({{ room.playercount }}/{{ room.maxplayers }})</p>
+            <div id="players_list"*ngFor="let name of playerNames">
+                <p>{{ name }}</p>
+            </div> 
     </main>
   </div>
