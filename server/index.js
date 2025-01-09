@@ -76,7 +76,7 @@ triumvirate_app.put('/lobby/host', async (req, res) => {
   const updatedRoom = await changeHost(roomId, playerId, playerToHostId);
   res.json(updatedRoom)
 })
-triumvirate_app.put('lobby/leave', async (req, res) => {
+triumvirate_app.put('/lobby/leave', async (req, res) => {
   const roomId = await req.body['roomId'];
   const playerId = await req.body['playerId'];
   await leaveRoom(roomId, playerId);
