@@ -20,7 +20,8 @@ export class RoomService {
       const rooms: Room[] = await firstValueFrom(
         this.http.get<Room[]>(`${this.apiUrl}/rooms`)
       );
-      this.currentRooms.next(rooms);
+      this.currentRooms = new BehaviorSubject<Room[]>(rooms);
+      this.rooms$ = this.currentRooms.asObservable()
       
     } catch (error) {
       console.error('Failed to get rooms:', error);
@@ -55,6 +56,7 @@ export class RoomService {
       const createdRoom: Room = await firstValueFrom(
         this.http.post<Room>(`${this.apiUrl}/rooms/${pid}`,{observable: 'response'})
       );
+      this.getRooms()
       return createdRoom._id;
     } catch (error) {
       console.error('Could not create room:', error);

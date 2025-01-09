@@ -71,6 +71,7 @@ export class LobbyPageComp implements OnInit{
     this.lobbyService.host$.subscribe((host: Player) => {
       this.host = host;
       this.isHost = this.host._id == this.sessionService.getSessionId()
+      console.log('1:',this.host,'2:',this.sessionService.getSessionId())
     });
     
   }

@@ -32,7 +32,8 @@ export class LobbyService {
   async checkHost(): Promise<void> {
     this.currentPlayers.getValue().forEach((player) => {
       if (player.ishost) {
-        this.currentHost.next(player)
+        this.currentHost = new BehaviorSubject<Player>(player);
+        this.host$ = this.currentHost.asObservable();
       }
     })
   }
@@ -46,8 +47,10 @@ export class LobbyService {
     }
 
     this.setRoomId('')
-    this.currentPlayers.next([])
-    this.currentHost.next({_id: '',
+    this.currentPlayers = new BehaviorSubject<Player[]>([]);
+    this.players$ = this.currentPlayers.asObservable();
+
+    this.currentHost = new BehaviorSubject<Player>({_id: '',
       ishost: false,
       inroom: false,
       hand:[],
@@ -57,6 +60,7 @@ export class LobbyService {
       availableactions:[],
       __v:0
     })
+    this.host$ = this.currentHost.asObservable();
   }
 
   async joinRoom(roomId: string): Promise<void> {
@@ -80,7 +84,8 @@ export class LobbyService {
       })
     })
 
-    this.currentPlayers.next(myPlayers)
+    this.currentPlayers = new BehaviorSubject<Player[]>(myPlayers);
+    this.players$ = this.currentPlayers.asObservable()
     this.checkHost()
   }
 
