@@ -77,7 +77,6 @@ export class RoomService {
 
   async kickPlayer(roomId: string, playerId: string, playerToKickId: string): Promise<void> {
     try {
-      console.log(roomId, playerId,playerToKickId)
       await firstValueFrom(
         this.http.put<Room>(`${this.apiUrl}/lobby/kick`,
           {observable: 'response', 
@@ -87,6 +86,21 @@ export class RoomService {
       )
     } catch (error) {
       console.error('Could not kick player,', error);
+    }
+  }
+
+  async setHost(roomId: string, playerId: string, playerToHostId: string): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.put<Room>(`${this.apiUrl}/rooms/host`,{
+          observable: 'response',
+          'roomId': roomId,
+          'playerId': playerId,
+          'playerToHostId': playerToHostId
+        })
+      )
+    } catch (error) {
+      console.error('Could not transfer host,', error);
     }
   }
 }

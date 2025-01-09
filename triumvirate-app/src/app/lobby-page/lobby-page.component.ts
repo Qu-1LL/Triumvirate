@@ -29,8 +29,7 @@ export class LobbyPageComp implements OnInit{
     __v:0};
   players: Player[] = []
 
-  nameSession: string = ''
-  idSession: string = ''
+  isHost: boolean = false
   
   constructor (private route: ActivatedRoute,
     private roomService: RoomService,
@@ -40,11 +39,9 @@ export class LobbyPageComp implements OnInit{
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
     })
-    this.nameSession = sessionService.getName()
-    this.idSession = sessionService.getSessionId()
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.room.players.forEach( async (uid) => {
       await this.playerService.getPlayer(uid).then(player => {
         this.players.push(player);
@@ -52,7 +49,10 @@ export class LobbyPageComp implements OnInit{
         console.error('Error getting player names', error);
       });
     });
-    
+    const myPlayer: Player = await this.playerService.getPlayer(this.sessionService.getSessionId())
+    if (myPlayer['ishost'] == true) {
+      this.isHost == true
+    }
   }
 
   @HostListener('window:unload', ['$event'])
