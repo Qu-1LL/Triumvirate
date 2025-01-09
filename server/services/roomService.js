@@ -18,7 +18,6 @@ export async function createRoom(uid){
         console.log(`Encountered an Error when creating a room: ${error}`)
     };
 };
-
 export async function getAllRooms(){
     try {
         const allRooms = Room.find({})
@@ -68,8 +67,12 @@ async function updatePlayerCount(roomId){
     const room = await Room.findById(roomId).select('players');
     const newPlayerCount = room.players.length;
     const updatedRoom = await Room.findByIdAndUpdate(roomId, {playercount: newPlayerCount}, {new: true});
-    
-
+    if (newPlayerCount === 0){
+        updatedRoom = await Room.findByIdAndDelete(roomId)
+        console.log(`Deleted room with id: (${roomId}) because there were 0 players.`)
+        return null;
+    }
+    return updatedRoom;
     } catch(error) {
         console.log(`An error as occured when trying to calculate the player count ${error}`)
     }
@@ -77,35 +80,33 @@ async function updatePlayerCount(roomId){
 
 export async function joinRoom(roomId, playerId){
     try {
-        const player = Player.findById(playerId);
-        const updatedRoomStatus = Player.findByIdAndUpdate(playerId, {inroom: true}, {new: true})
-        const room = Room.findByIdAndUpdate(roomId, {$push : {players: playerId}}, {new: true})
+        const player = await Player.findById(playerId);
+        const updatedRoomStatus = await Player.findByIdAndUpdate(playerId, {inroom: true}, {new: true})
+        const room = await Room.findByIdAndUpdate(roomId, {$push : {players: playerId}}, {new: true})
         
         if (!room | !player) {
             console.error((player ? 'Room' : 'Player'),' not found');
             return;
         }
 
-        await updatePlayerCount(roomId);
+        const updatedRoom = await updatePlayerCount(roomId);
 
-        return room;
+        return updatedRoom;
     } catch (error) {
         console.log(`Error joining room, ${error}`)
     }
 };
 export async function kickPlayer(roomId, playerId, playerToKickId){
     try{
+
         const room = await Room.findById(roomId);
-        const playerInRoom = room.includes({players: playerToKickId})
-        const playerIsHost = false
-        const player = await Player.findById(playerId).then((player) => {
-            const playerIsHost = player.ishost;
-        });
-        
-        if (playerIsHost | playerInRoom){
-            const updatedRoom = await Room.findByIdAndDelete(roomId, {players: playerToKickId}, {new: true});
-            const updateKickedPlayer = await Player.findByIdAndUpdate(playerToKickId, {inroom: false}, {new: true});
-            const updatedroom = await updatePlayerCount(roomId);
+        const playerInRoom = room.players.includes(playerToKickId)
+        const player = await Player.findById(playerId)
+        const playerIsHost = player.ishost
+        if (playerIsHost && playerInRoom && player){
+            await Room.findByIdAndUpdate(roomId, {$pull: {players: playerToKickId}}, {new: true});
+            await Player.findByIdAndUpdate(playerToKickId, {inroom: false}, {new: true});
+            const updatedRoom = await updatePlayerCount(roomId);
             return updatedRoom;
         }
         else {
@@ -122,6 +123,7 @@ export async function changeHost(roomId, playerId, playerToHostId){ // remember 
         const playerInRoom = room.includes({players: playerToHostId})
         const player = await Player.findById(playerId);
         const playerIsHost = await player.ishost;
+
         if (playerIsHost | playerInRoom){
             setPlayerHost(playerId)
             const updatedRoom = setPlayerHost(playerToHostId)
@@ -134,6 +136,18 @@ export async function changeHost(roomId, playerId, playerToHostId){ // remember 
         console.log(`Encountered an error while trying to make (${playerToHost}) the host. The current host is (${playerToHost})`);
     }
 }
-export async function deleteRoom(roomId){
-
-}
+export async function deletePlayer(playerId) {
+   try {
+      console.log('Trying to delete a player.')
+      const player = await Player.findById(playerId);
+      if (!player.inroom){
+         const deletedRoom = Room.deleteOne({players: playerId})
+         updatePlayerCount()
+      } else{
+      const deletedPlayer = await Player.deleteOne({_id: playerId});
+      }
+      console.log('Trying to delete player rn')
+   } catch (error) {
+      console.error(`Error deleting player: ${error}`);
+   }
+};

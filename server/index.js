@@ -4,9 +4,9 @@ import express from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { getPlayer, deletePlayer, createPlayer } from './services/playerService.js';
+import { getPlayer, createPlayer } from './services/playerService.js';
 
-import { joinRoom, getAllRooms, createRoom, getRoom, kickPlayer, changeHost } from './services/roomService.js';
+import { joinRoom, getAllRooms, createRoom, getRoom, kickPlayer, deletePlayer, changeHost } from './services/roomService.js';
 
 import {v4 as uuidv4} from 'uuid';
 dotenv.config();
@@ -66,7 +66,6 @@ triumvirate_app.put('/lobby/kick', async (req, res) => {
   const roomId = await req.body['roomId']
   const playerId = await req.body['playerId']
   const playerToKickId = await req.body['playerToKickId']
-  console.log(roomId,playerId,playerToKickId)
   const updatedRoom = await kickPlayer(roomId, playerId, playerToKickId);
   res.json(updatedRoom)
 })
@@ -74,7 +73,7 @@ triumvirate_app.patch('/rooms/host', async (req, res) => {
   const roomId = await req.body['roomId']
   const playerId = await req.body['playerId']
   const playerToHostId = await req.body['playerToHostId']
-  const updatedRoom = await kickPlayer(roomId, playerId, playerToHostId);
+  const updatedRoom = await changeHost(roomId, playerId, playerToHostId);
   res.json(updatedRoom)
 })
 
@@ -95,7 +94,6 @@ triumvirate_app.get('/player/:uid', async (req, res) => {
 
 triumvirate_app.delete('/player/:uid', async (req, res) => {
   const playerId = req.params.uid
-  const player_data = await deletePlayer(playerId);
-  res.send(player_data)
+  await deletePlayer(playerId);
 });
 
