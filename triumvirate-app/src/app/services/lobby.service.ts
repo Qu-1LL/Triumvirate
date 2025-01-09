@@ -40,12 +40,12 @@ export class LobbyService {
   async leaveRoom(): Promise<void> {
 
     try {
-      this.http.put<Room>(`${this.apiUrl}/lobby/leave`,{'roomId': sessionStorage.getItem('roomId') ?? '','playerId': this.sessionService.getSessionId()})
+      this.http.put<Room>(`${this.apiUrl}/lobby/leave`,{'roomId': this.getRoomId(),'playerId': this.sessionService.getSessionId()})
     } catch (error) {
       console.error('Could not join the requested room:', error);
     }
 
-    sessionStorage.setItem('roomId','')
+    this.setRoomId('')
     this.currentPlayers.next([])
     this.currentHost.next({_id: '',
       ishost: false,
@@ -70,7 +70,7 @@ export class LobbyService {
       console.error('Could not join the requested room:', error);
     }
 
-    sessionStorage.setItem('roomId',roomId)
+    this.setRoomId(roomId)
     const myPlayers: Player[] = []
     this.roomService.getRoom(roomId).then((room) => {
       room.players.forEach((playerId) => {
@@ -82,6 +82,14 @@ export class LobbyService {
 
     this.currentPlayers.next(myPlayers)
     this.checkHost()
+  }
+
+  setRoomId(roomId: string): void {
+    sessionStorage.setItem('roomId',roomId);
+  }
+
+  getRoomId(): string {
+    return sessionStorage.getItem('roomId') ?? '';
   }
 
 
