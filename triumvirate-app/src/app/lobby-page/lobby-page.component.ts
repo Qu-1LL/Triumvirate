@@ -54,9 +54,9 @@ export class LobbyPageComp implements OnInit{
     })
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.room.players.forEach( async (uid) => {
-      await this.playerService.getPlayer(uid).then(player => {
+      this.playerService.getPlayer(uid).then(player => {
         this.players.push(player);
       }, (error) => {
         console.error('Error getting player names', error);
