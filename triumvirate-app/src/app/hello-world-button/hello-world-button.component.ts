@@ -15,7 +15,8 @@ export class HelloWorldButtonComponent {
 
   apiUrl: string = 'http://localhost:5000'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient
+  ) { }
 
   async sendHelloWorld(): Promise<void> {
     try {

@@ -77,6 +77,7 @@ export class RoomService {
 
   async kickPlayer(roomId: string, playerId: string, playerToKickId: string): Promise<void> {
     try {
+      console.log(roomId, playerId,playerToKickId)
       await firstValueFrom(
         this.http.put<Room>(`${this.apiUrl}/lobby/kick`,
           {observable: 'response', 

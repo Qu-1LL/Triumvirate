@@ -13,14 +13,21 @@ import { SessionService } from '../services/session.service';
 })
 export class HomePageComp implements OnInit {
   title = 'Triumvirate';
+  
+  nameSession: string = ''
+  idSession: string = ''
 
-  constructor (private sessionService: SessionService) {}
+  constructor (private sessionService: SessionService) {
+    
+  }
 
 
   ngOnInit(): void {
     if (this.sessionService.getSessionId() != '') {
       this.sessionService.signOut();
     }
+    this.nameSession = this.sessionService.getName()
+    this.idSession = this.sessionService.getSessionId()
 
   }
 }
