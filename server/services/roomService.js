@@ -61,7 +61,8 @@ export async function setPlayerHost(roomId, playerId){
     }catch(error){
             console.log(`An error has occured trying to set the player as a host: ${error}`);        };
 
-} 
+}
+
 async function updatePlayerCount(roomId){
     try{
     const room = await Room.findById(roomId).select('players');
@@ -96,6 +97,7 @@ export async function joinRoom(roomId, playerId){
         console.log(`Error joining room, ${error}`)
     }
 };
+
 export async function kickPlayer(roomId, playerId, playerToKickId){
     try{
 
@@ -134,6 +136,28 @@ export async function changeHost(roomId, playerId, playerToHostId){ // remember 
         }
     } catch(error){
         console.log(`Encountered an error while trying to make (${playerToHost}) the host. The current host is (${playerToHost})`);
+    }
+}
+
+export async function leaveRoom(roomId, playerId){
+    try{
+    const player = Player.findByid(playerId);
+    const playerHostStatus = player.ishost; 
+    await Room.findByIdAndUpdate(roomId, {$pull: {players: playerId}}, {new: true});
+    const updatedRoom = await updatePlayerCount(roomId);
+    if (playerHostStatus && updatedRoom !== null){
+        await Player.findByIdAndUpdate(playerId, {ishost: false}, {new: true});  
+        const nextPlayerInRoomId = updatedRoom.players[0]._id.toString();
+        await setPlayerHost(roomId, nextPlayerInRoomId);
+        console.log('Host left setting another player to host.');
+        return;
+    } else {
+        console.log('Host has left the room, deleting the room.')
+        return;
+    }
+    } catch(error){
+        console.log(`Encountered an error when player: (${playerId}) attempted to leave room: (${roomId})`);
+
     }
 }
 export async function deletePlayer(playerId) {
