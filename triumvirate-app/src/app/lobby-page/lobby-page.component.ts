@@ -7,6 +7,7 @@ import { PlayerService } from '../services/player.service';
 import { KickButtonComponent } from './kick-button/kick-button.component';
 import { Player } from '../player';
 import { SessionService } from '../services/session.service';
+import { LobbyService } from '../services/lobby.service';
 
 @Component({
   selector: 'app-lobby-page',
@@ -29,12 +30,24 @@ export class LobbyPageComp implements OnInit{
     __v:0};
   players: Player[] = []
 
+  host: Player = {_id: '',
+    ishost: false,
+    inroom: false,
+    hand:[],
+    balance:0,
+    activecards:[],
+    playername:'',
+    availableactions:[],
+    __v:0
+  }
+
   isHost: boolean = false
   
   constructor (private route: ActivatedRoute,
     private roomService: RoomService,
     private playerService: PlayerService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private lobbyService: LobbyService
   ) {
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
@@ -49,10 +62,17 @@ export class LobbyPageComp implements OnInit{
         console.error('Error getting player names', error);
       });
     });
-    const myPlayer: Player = await this.playerService.getPlayer(this.sessionService.getSessionId())
-    if (myPlayer['ishost'] == true) {
-      this.isHost == true
-    }
+
+
+
+    this.lobbyService.players$.subscribe((players: Player[]) => {
+      this.players = players;
+    });
+    this.lobbyService.host$.subscribe((host: Player) => {
+      this.host = host;
+      this.isHost = this.host._id == this.sessionService.getSessionId()
+    });
+    
   }
 
   @HostListener('window:unload', ['$event'])

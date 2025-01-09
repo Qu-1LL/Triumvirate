@@ -50,19 +50,6 @@ export class RoomService {
     }
   }
 
-  async joinRoom(rid: string, pid: string): Promise<string> {
-    try {
-      const joinedRoom: Room = await firstValueFrom(
-        this.http.put<Room>(`${this.apiUrl}/rooms/join`,{'roomId': rid,'playerId': pid})
-      )
-      console.log(joinedRoom);
-      return joinedRoom._id;
-    } catch (error) {
-      console.error('Could not join the requested room:', error);
-      return '';
-    }
-  }
-
   async createRoom(pid: string): Promise<string> {
     try {
       const createdRoom: Room = await firstValueFrom(

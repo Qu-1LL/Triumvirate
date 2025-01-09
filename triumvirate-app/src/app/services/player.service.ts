@@ -16,7 +16,7 @@ export class PlayerService {
       const player: Player = await firstValueFrom(
         this.http.get<Player>(`${this.apiUrl}/player/${uid}`)
       );
-      return await player.playername
+      return player['playername']
     } catch (error) {
       console.error('Failed to get player info', error);
       return '';
