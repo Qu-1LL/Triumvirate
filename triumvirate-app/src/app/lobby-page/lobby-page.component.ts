@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Room } from '../room';
 import { ActivatedRoute} from '@angular/router';
 import { RoomService } from '../services/room.service';
@@ -54,4 +54,11 @@ export class LobbyPageComp implements OnInit{
     });
     
   }
+
+  @HostListener('window:unload', ['$event'])
+    onUnload(): void {
+      if (this.sessionService.getSessionId() != '') {
+        this.sessionService.signOut();
+      }
+    }
 }
