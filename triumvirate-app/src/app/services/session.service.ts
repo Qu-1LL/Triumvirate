@@ -30,7 +30,9 @@ export class SessionService {
 
   async signOut() {
     try {
+      console.log(sessionStorage.getItem('id'))
       await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/player/${sessionStorage.getItem('id')}`));
+
     } catch (error) {
       console.error('Failed to delete player with ID:',sessionStorage.getItem('id'),'. (may already be deleted) ', error)
     }

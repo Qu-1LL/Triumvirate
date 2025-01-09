@@ -160,6 +160,7 @@ export async function leaveRoom(roomId, playerId){
 
     }
 }
+
 export async function deletePlayer(playerId) {
    try {
       console.log('Trying to delete a player.')
