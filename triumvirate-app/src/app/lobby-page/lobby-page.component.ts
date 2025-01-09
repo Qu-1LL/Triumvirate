@@ -7,6 +7,7 @@ import { PlayerService } from '../services/player.service';
 import { KickButtonComponent } from './kick-button/kick-button.component';
 import { Player } from '../player';
 import { SessionService } from '../services/session.service';
+import { LobbyService } from '../services/lobby.service';
 
 @Component({
   selector: 'app-lobby-page',
@@ -29,28 +30,47 @@ export class LobbyPageComp implements OnInit{
     __v:0};
   players: Player[] = []
 
-  nameSession: string = ''
-  idSession: string = ''
+  host: Player = {_id: '',
+    ishost: false,
+    inroom: false,
+    hand:[],
+    balance:0,
+    activecards:[],
+    playername:'',
+    availableactions:[],
+    __v:0
+  }
+
+  isHost: boolean = false
   
   constructor (private route: ActivatedRoute,
     private roomService: RoomService,
     private playerService: PlayerService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private lobbyService: LobbyService
   ) {
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
     })
-    this.nameSession = sessionService.getName()
-    this.idSession = sessionService.getSessionId()
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.room.players.forEach( async (uid) => {
       await this.playerService.getPlayer(uid).then(player => {
         this.players.push(player);
       }, (error) => {
         console.error('Error getting player names', error);
       });
+    });
+
+
+
+    this.lobbyService.players$.subscribe((players: Player[]) => {
+      this.players = players;
+    });
+    this.lobbyService.host$.subscribe((host: Player) => {
+      this.host = host;
+      this.isHost = this.host._id == this.sessionService.getSessionId()
     });
     
   }

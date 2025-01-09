@@ -32,7 +32,11 @@ export class SessionService {
     try {
       console.log(sessionStorage.getItem('id'))
       await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/player/${sessionStorage.getItem('id')}`));
+<<<<<<< HEAD
 
+=======
+      console.log(sessionStorage.getItem('id'))
+>>>>>>> 65357cfa446e96967ba440482b113edf25c80da2
     } catch (error) {
       console.error('Failed to delete player with ID:',sessionStorage.getItem('id'),'. (may already be deleted) ', error)
     }
