@@ -85,7 +85,7 @@ triumvirate_app.put('/lobby/leave', async (req, res) => {
 })
 
 
-triumvirate_app.put('/rooms/join', async (req, res) => {
+triumvirate_app.put('/lobby/join', async (req, res) => {
   const roomId = await req.body['roomId']
   const playerId = await req.body['playerId']
   const joinedRoom = await joinRoom(roomId,playerId);

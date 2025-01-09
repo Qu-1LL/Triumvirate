@@ -129,7 +129,7 @@ export async function changeHost(roomId, playerId, playerToHostId){ // remember 
         if (playerIsHost | playerInRoom){
             setPlayerHost(playerId)
             const updatedRoom = setPlayerHost(playerToHostId)
-            return updatedRoom
+            return updatedRoom;
         }
         else {
             console.log(`The player you are trying to make a host is not in the game.`)
@@ -141,38 +141,39 @@ export async function changeHost(roomId, playerId, playerToHostId){ // remember 
 
 export async function leaveRoom(roomId, playerId){
     try{
-    const player = Player.findByid(playerId);
+    const player = Player.findById(playerId);
     const playerHostStatus = player.ishost; 
     await Room.findByIdAndUpdate(roomId, {$pull: {players: playerId}}, {new: true});
-    const updatedRoom = await updatePlayerCount(roomId);
+    await updatePlayerCount(roomId);
     if (playerHostStatus && updatedRoom !== null){
-        await Player.findByIdAndUpdate(playerId, {ishost: false}, {new: true});  
+        await Player.findByIdAndUpdate(playerId, {ishost: false, inroom: false}, {new: true});  
         const nextPlayerInRoomId = updatedRoom.players[0]._id.toString();
         await setPlayerHost(roomId, nextPlayerInRoomId);
         console.log('Host left setting another player to host.');
         return;
     } else {
-        console.log('Host has left the room, deleting the room.')
+        await Player.findByIdAndUpdate(playerId, {inroom: false}, {new: true});
+
+        console.log('Host has left the room, deleting the room.');
         return;
     }
     } catch(error){
-        console.log(`Encountered an error when player: (${playerId}) attempted to leave room: (${roomId})`);
+        console.log(`Encountered an error when player: (${playerId}) attempted to leave room: (${roomId}) Error: ${error}`);
 
     }
 }
 
 export async function deletePlayer(playerId) {
    try {
-      console.log('Trying to delete a player.')
       const player = await Player.findById(playerId);
-      if (!player.inroom){
-         const deletedRoom = Room.deleteOne({players: playerId})
-         updatePlayerCount()
-      } else{
-      const deletedPlayer = await Player.deleteOne({_id: playerId});
+      console.log(player.inroom)
+      if (player.inroom){
+         const deleteRoomId = await Room.findOne({players: playerId});
+         await leaveRoom(deleteRoomId._id.toString(), playerId.toString());
       }
-      console.log('Trying to delete player rn')
+
+      await Player.findByIdAndDelete(playerId);
    } catch (error) {
-      console.error(`Error deleting player: ${error}`);
    }
 };
+ 
