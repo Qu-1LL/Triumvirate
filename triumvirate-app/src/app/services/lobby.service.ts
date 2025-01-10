@@ -1,38 +1,30 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit} from '@angular/core';
 import { RoomService } from './room.service';
 import { PlayerService } from './player.service';
 import { SessionService } from './session.service';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom,BehaviorSubject, Observable } from 'rxjs';
+import { firstValueFrom,BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
 import { Player } from '../player';
 import { Room } from '../room';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LobbyService {
+export class LobbyService implements OnInit {
 
   apiUrl = 'http://localhost:5000'
 
   private currentPlayers: BehaviorSubject<Player[]> = new BehaviorSubject<Player[]>([]);
   players$: Observable<Player[]> = this.currentPlayers.asObservable();
 
-  private currentHost: BehaviorSubject<Player> = new BehaviorSubject<Player>({_id: '',
-    ishost: false,
-    inroom: false,
-    hand:[],
-    balance:0,
-    activecards:[],
-    playername:'',
-    availableactions:[],
-    __v:0
-  });
+  private currentHost: ReplaySubject<Player> = new ReplaySubject<Player>();
   host$: Observable<Player> = this.currentHost.asObservable();
 
   async checkHost(): Promise<void> {
     this.currentPlayers.getValue().forEach((player) => {
-      if (player.ishost) {
-        this.currentHost = new BehaviorSubject<Player>(player);
+      if (player.ishost == true) {
+        this.currentHost.next(player);
         this.host$ = this.currentHost.asObservable();
       }
     })
@@ -50,16 +42,7 @@ export class LobbyService {
     this.currentPlayers = new BehaviorSubject<Player[]>([]);
     this.players$ = this.currentPlayers.asObservable();
 
-    this.currentHost = new BehaviorSubject<Player>({_id: '',
-      ishost: false,
-      inroom: false,
-      hand:[],
-      balance:0,
-      activecards:[],
-      playername:'',
-      availableactions:[],
-      __v:0
-    })
+    this.currentHost = new ReplaySubject<Player>()
     this.host$ = this.currentHost.asObservable();
   }
 
@@ -87,6 +70,8 @@ export class LobbyService {
     this.currentPlayers = new BehaviorSubject<Player[]>(myPlayers);
     this.players$ = this.currentPlayers.asObservable()
     this.checkHost()
+
+    console.log('Current players:', this.currentPlayers.getValue())
   }
 
   setRoomId(roomId: string): void {
@@ -95,6 +80,21 @@ export class LobbyService {
 
   getRoomId(): string {
     return sessionStorage.getItem('roomId') ?? '';
+  }
+
+  ngOnInit(): void {
+    const myPlayers: Player[] = []
+    this.roomService.getRoom(this.getRoomId()).then((room) => {
+      room.players.forEach((playerId) => {
+        this.playerService.getPlayer(playerId).then(player => {
+          myPlayers.push(player)
+        })
+      })
+    })
+
+    this.currentPlayers = new BehaviorSubject<Player[]>(myPlayers);
+    this.players$ = this.currentPlayers.asObservable()
+    this.checkHost()
   }
 
 
