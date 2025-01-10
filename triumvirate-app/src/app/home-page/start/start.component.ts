@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Player } from '../../player';
 import { SessionService } from '../../services/session.service';
-
+import { SocketService } from '../../services/socket.service';
 @Component({
   selector: 'app-start',
   imports: [FormsModule, CommonModule],
@@ -27,7 +27,7 @@ export class StartComponent implements OnDestroy {
   startPlayer(): void {
     if (this.name.trim()) {
       this.callPostPlayer(this.name);
-    } 
+    }
   }
 
 
@@ -44,7 +44,7 @@ export class StartComponent implements OnDestroy {
     }
     this.router.navigate(['rooms']);
   }
-  
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

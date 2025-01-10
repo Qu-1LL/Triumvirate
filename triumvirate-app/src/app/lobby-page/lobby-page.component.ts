@@ -8,6 +8,7 @@ import { KickButtonComponent } from './kick-button/kick-button.component';
 import { Player } from '../player';
 import { SessionService } from '../services/session.service';
 import { LobbyService } from '../services/lobby.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-lobby-page',
@@ -42,12 +43,13 @@ export class LobbyPageComp implements OnInit{
   }
 
   isHost: boolean = false
-  
+
   constructor (private route: ActivatedRoute,
     private roomService: RoomService,
     private playerService: PlayerService,
     private sessionService: SessionService,
-    private lobbyService: LobbyService
+    private lobbyService: LobbyService,
+    private socketService: SocketService
   ) {
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
@@ -73,7 +75,6 @@ export class LobbyPageComp implements OnInit{
       console.log('1:',this.host._id,'2:',this.sessionService.getSessionId())
     });
 
-    
   }
 
   @HostListener('window:unload', ['$event'])
