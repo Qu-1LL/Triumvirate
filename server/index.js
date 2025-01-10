@@ -4,12 +4,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { getPlayer, createPlayer } from './services/playerService.js';
 import { joinRoom, getAllRooms, createRoom, getRoom, kickPlayer, deletePlayer, changeHost, leaveRoom} from './services/roomService.js';
-
+import { Server } from 'socket.io';
 dotenv.config();
 
 import connectDB from './config/db.js';
 
 const triumvirate_app = express();
+const io = Server();
 
 const PORT = 5000; 
 
@@ -33,6 +34,32 @@ triumvirate_app.listen(PORT,() =>{
 // triumvirate_app.get('/', (req, res) => {
 //   res.send('server is ready')
 // });
+
+
+
+io.on('connection', (socket) => {
+  const playerId = socket.handshake.auth.playerId;
+  console.log('Client connect with player Id: ', playerId);
+  io.on('get_all_rooms', (data) => {
+    io.to(playerId).emit(getAllRooms())
+  });
+  io.on('create_room', (data) => {
+    io.to(playerId).emit(createRoom(data.playerId))
+    console.log(`Player: (${playerId}) has created a room.`)
+  });
+
+  io.on('join_room', (data) => {
+    io.to(data.roomId).emit(joinRoom(data.roomId, data.playerId));
+  });
+
+  io.on('leave_room', (data) => {
+    io.to(data.roomId).broadcast.emit(leaveRoom(data.roomId, data.playerId));
+  });
+
+  io.on('get_player', (data)=> {
+    io.to(playerId).emit(getPlayer(playerId))
+  });
+})
 
 triumvirate_app.post('/player/:playername', async(req, res) => {
   const sname = req.params.playername;
