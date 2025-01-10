@@ -1,3 +1,5 @@
 #ignore Dot Env
 .env
 node_modules
+server/node_modules
+triumvirate-app/node_modules
