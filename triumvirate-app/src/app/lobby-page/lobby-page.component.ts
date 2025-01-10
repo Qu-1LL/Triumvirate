@@ -54,6 +54,7 @@ export class LobbyPageComp implements OnInit{
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
     })
+
   }
 
   ngOnInit(): void {
@@ -65,15 +66,13 @@ export class LobbyPageComp implements OnInit{
       });
     });
 
-
-
     this.lobbyService.players$.subscribe((players: Player[]) => {
       this.players = players;
     });
     this.lobbyService.host$.subscribe((host: Player) => {
       this.host = host;
       this.isHost = this.host._id == this.sessionService.getSessionId()
-      console.log('1:',this.host,'2:',this.sessionService.getSessionId())
+      console.log('1:',this.host._id,'2:',this.sessionService.getSessionId())
     });
 
   }
