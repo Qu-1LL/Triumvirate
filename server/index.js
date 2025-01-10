@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 dotenv.config();
 
 import connectDB from './config/db.js';
+import Player from './models/player.js';
 
 const triumvirate_app = express();
 const io = Server();
@@ -44,21 +45,25 @@ io.on('connection', (socket) => {
     io.to(playerId).emit(getAllRooms())
   });
   io.on('create_room', (data) => {
-    io.to(playerId).emit(createRoom(data.playerId))
+    io.to(playerId).emit(createRoom(playerId))
     console.log(`Player: (${playerId}) has created a room.`)
   });
 
   io.on('join_room', (data) => {
-    io.to(data.roomId).emit(joinRoom(data.roomId, data.playerId));
+    io.to(data.roomId).emit(joinRoom(data.roomId, playerId));
   });
 
   io.on('leave_room', (data) => {
-    io.to(data.roomId).broadcast.emit(leaveRoom(data.roomId, data.playerId));
+    io.to(data.roomId).broadcast.emit(leaveRoom(data.roomId, playerId));
   });
 
   io.on('get_player', (data)=> {
     io.to(playerId).emit(getPlayer(playerId))
   });
+  io.on('kick_player', (data) => {
+    io.to(data.playerToKickId).emit('You have been kicked')
+    io.to(playerId).emit(kickPlayer(data.RoomId, PlayerId, data.playerToKickId))
+  })
 })
 
 triumvirate_app.post('/player/:playername', async(req, res) => {
