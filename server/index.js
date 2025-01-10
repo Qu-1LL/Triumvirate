@@ -11,7 +11,7 @@ import connectDB from './config/db.js';
 import Player from './models/player.js';
 
 const triumvirate_app = express();
-const io = Server();
+const io = new Server();
 
 const PORT = 5000; 
 
