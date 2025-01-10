@@ -1,18 +1,13 @@
 
 import express from 'express';
-//import bcrypt from 'bcrypt';
-import jsonwebtoken from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { getPlayer, createPlayer } from './services/playerService.js';
-
 import { joinRoom, getAllRooms, createRoom, getRoom, kickPlayer, deletePlayer, changeHost, leaveRoom} from './services/roomService.js';
 
-import {v4 as uuidv4} from 'uuid';
 dotenv.config();
 
 import connectDB from './config/db.js';
-import playerSchema from './models/player.js'
 
 const triumvirate_app = express();
 
