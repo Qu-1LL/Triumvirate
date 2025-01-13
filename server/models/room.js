@@ -23,6 +23,10 @@ const roomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Player',
     }],
+    senate: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Senate'
+    },
     deck: {
         type: [String],
         default: []
