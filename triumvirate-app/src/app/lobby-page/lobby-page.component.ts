@@ -53,6 +53,7 @@ export class LobbyPageComp implements OnInit{
   ) {
     this.roomService.getRoom(this.route.snapshot.paramMap.get('roomId') ?? '').then((myRoom: Room) => {
       this.room = myRoom;
+      console.log(myRoom)
     })
 
   }
